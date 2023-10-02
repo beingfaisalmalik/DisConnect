@@ -1,0 +1,59 @@
+{% extends 'main.html'%}
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        {% block content %}
+       
+       <style>
+        .home-container {
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        }
+
+       </style>
+       
+
+        <div class='home-container'>
+
+            <div>
+
+                <h3>Browse Topics</h3>
+                {% for topic in topics %}
+                <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
+                {% endfor %}
+            </div>
+
+            <div>
+                <h5>{{ rooms_count }} rooms available</h5>
+                <a href="{% url 'create_room'%}">Create A Room</a>
+                <div>
+                    {% for room in rooms %}
+                    <div>
+                    {% if request.user == room.host%}
+                    <a href={% url 'update_room' room.id %}>Edit Room </a>
+                    <a href={% url 'delete_room' room.id %}>Delete Room </a>
+                    {% endif %}
+                    <span>@{{room.host.username}}</span>
+                     <h5>{{room.id}} -- <a href="room/{{room.id}}">{{room.name}}</a></h5>
+                    <small>{{room.topic.name}}</small>
+                    <hr>
+                    </div>
+                    {% endfor %}
+    
+                </div>
+            </div>
+            
+        </div>
+        {% endblock %}
+        <script src="" async defer></script>
+    </body>
+</html>

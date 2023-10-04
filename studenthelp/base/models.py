@@ -7,6 +7,7 @@ class Topic(models.Model):
     def __str__(self):
         return str(self.name)
     
+    
 class Room(models.Model):
     host = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
@@ -33,6 +34,10 @@ class Message(models.Model):
     update = models.DateTimeField(auto_now=True)
     #Take timestamp Only Once When we Create It
     create = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['-update', '-create']
+        
     def __str__(self):
         return str(self.body[0:50])
     
